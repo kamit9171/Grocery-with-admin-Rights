@@ -1,0 +1,64 @@
+<div class="container">
+    <h3>Grocery Items</h3>
+    <table class="table table-striped">
+
+        <thead>
+            <tr>
+                <th scope="col"><input type="checkbox" (change)="selectAll($event)"></th>
+                <th scope="col">ID</th>
+                <th scope="col">Item Name</th>
+                <th scope="col">Weight</th>
+
+                <th scope="col">price</th>
+                <th scope="col">quantity</th>
+                <th scope="col" *ngIf="authService.isLoggedIn()">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let grocery of grocerys">
+                <td><input type="checkbox" [checked]="isChecked(grocery)" (change)="onSelect(grocery, $event)" /></td>
+                <td>{{grocery.id}}</td>
+                <td><a routerLink="/details/{{grocery.id}}">{{grocery.itemName}}</a></td>
+                <td><a routerLink="/details/{{grocery.id}}">{{grocery.weight}}</a></td>
+                <td>{{ grocery.price | currency: 'INR' }}</td>
+
+                <td>
+                    <div class="input-group">
+                        <button class="btn btn-outline-secondary" type="button"
+                            (click)="decreaseQuantity(grocery)">-</button>
+                        <span class="input-group-text">{{grocery.quantity}}</span>
+                        <button class="btn btn-outline-secondary" type="button"
+                            (click)="increaseQuantity(grocery)">+</button>
+                    </div>
+                <td>
+                    <button type="button" class="btn btn-success" (click)="buySingleItem(grocery)">Buy</button>
+                    <div *ngIf="selectedGrocery" class="alert alert-success fixed-bottom">
+                        Item added to cart successfully.
+                      </div>
+                </td>
+
+
+                <!-- Other buttons -->
+
+
+                <td><button *ngIf="authService.isLoggedIn()" type="button" class="btn btn-dark"
+                        (click)="goToUpdate(grocery)">Update Record</button></td>
+
+            </tr>
+        </tbody>
+        <button type="button" class="btn btn-success" (click)="buySelected()">Buy Selected</button>
+        
+    </table>
+    <div class="row">
+        <div class="col-md-4">
+            <button *ngIf="authService.isLoggedIn()" type="button" class="btn btn-primary"
+                [routerLink]="['/add-grocery']">Add Grocery</button>
+            <button *ngIf="authService.isLoggedIn()" type="button" class="btn btn-danger"
+                (click)="deleteGrocerys()">Delete Grocery</button>
+        </div>
+        <div class="col-md-8">
+            <p *ngIf="selectedCount > 0">{{selectedCount}} selected</p>
+        </div>
+        
+    </div>
+</div>

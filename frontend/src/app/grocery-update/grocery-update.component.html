@@ -1,0 +1,42 @@
+
+
+<div class="container">
+    <h3>Update Grocery</h3>
+    <div *ngIf="dateOfJoiningError">Date of Joining shouldn't be future date</div>
+    <form #updateForm="ngForm" (ngSubmit)="updateGrocery()" ngNativeValidate>
+        <div class="form-group">
+            <label for="itemName">Item Name:</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="itemName" name="itemName" [(ngModel)]="grocery.itemName" required/>
+                <select class="form-control" id="itemNameDropdown" name="itemNameDropdown" (change)="onItemNameChange($event)">
+                    <option *ngFor="let item of predefinedItems" [value]="item">{{item}}</option>
+                </select>
+            </div>
+        </div>
+        
+        
+        <div class="form-group">
+            <label for="weight">Weight:</label>
+            <select class="form-control" id="weight" name="weight" [(ngModel)]="grocery.weight" required>
+                <option value="500g">500g</option>
+                <option value="1kg">1kg</option>
+                <option value="2kg">2kg</option>
+                <option value="3kg">3kg</option>
+                <option value="5kg">5kg</option>
+                <option value="10kg">10kg</option>
+            </select>
+        </div>
+        
+        
+        <div class="form-group">
+            <label>Price:</label>
+            <input type="number" class="form-control" min="1" id="price" name="price" [(ngModel)]="grocery.price" required/>
+        </div>
+        <td>{{ grocery.price | currency: 'INR' }}</td>
+        <button type="submit" [disabled]="dateOfJoiningError" class="btn btn-primary">Submit</button>
+        <!-- <button type="submit" [disabled]="dateOfJoiningError" class="btn btn-primary">Submit</button> --> 
+        <button type="button" class="btn btn-secondary" (click)="goBack()">Back</button>
+    </form>
+</div>
+
+
